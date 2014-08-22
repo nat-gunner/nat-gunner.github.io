@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>Iris Classification Wizard</title>
+	<meta name="description" content="Iris Classification Wizard">
+	<meta name="author" content="Nat-gunner">
+	<meta name="generator" content="slidify" />
+	
+	<!-- LOAD STYLE SHEETS -->
+	<link rel="stylesheet" href="libraries/frameworks/html5slides/default/styles.css">
+	<link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />  <link rel="stylesheet" href = "assets/css/ribbons.css">
+  
+</head>
+<body style='display: none'>
+	<section class='slides layout-regular template-regular'>
+     <article class="" id="slide-1" style="background:;">
+  <h3>Introduction</h3>
+  <ul>
+<li>Botanists need an easy way to classify irises</li>
+<li>Thanks to the power of data, it&#39;s possible to classify irises based on a small number of inputs</li>
+<li>The Iris Classification Wizard uses the power of regression trees and Shiny to provide a simple tool for iris classification</li>
+</ul>
+
+</article>
+
+<article class="" id="slide-2" style="background:;">
+  <h3>How It Works</h3>
+  <p>The Wizard applies the rpart function to the iris dataset to come up with a classification tree.</p>
+
+<pre><code class="r">data(iris)
+require(rpart)
+modFit &lt;- rpart(Species ~ Petal.Length + Petal.Width , data=iris)
+</code></pre>
+
+<p>The Wizard then makes a prediction of the iris species based on the user input. For example:</p>
+
+<pre><code class="r">newdata=data.frame(Petal.Length=3, Petal.Width=2)
+predict(modFit, newdata=newdata)
+</code></pre>
+
+<pre><code>##   setosa versicolor virginica
+## 1      0    0.02174    0.9783
+</code></pre>
+
+</article>
+
+<article class="" id="slide-3" style="background:;">
+  <h3>The Classification Tree</h3>
+  <pre><code class="r">require(rattle)
+fancyRpartPlot(modFit, main=&quot;This is the tree used by the Iris Classification Wizard&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-3.png" alt="plot of chunk unnamed-chunk-3"> </p>
+
+</article>
+
+<article class="" id="slide-4" style="background:;">
+  <h3>Applying the Prediction</h3>
+  <p>The Wizard takes the probability values and uses if/then statements to report the species:</p>
+
+<pre><code class="r">if (predict(modFit, newdata=newdata)[1] &gt; .8 ){
+    return(c(&quot;setosa&quot;))
+    }
+else if (predict(modFit, newdata=newdata)[2] &gt; .8 ){
+    return(c(&quot;versicolor&quot;))
+    }
+else {
+    return(c(&quot;virginica&quot;))
+    }
+</code></pre>
+
+</article>
+
+<article class="" id="slide-5" style="background:;">
+  <h3>Conclusion</h3>
+  <p>The Iris Classification Wizard uses sophisticated data analysis to provide botanists with an accurate classification tool.  It will help reduce errors and give botanists more time to focus on their field work.</p>
+
+<p>I hope you enjoy the tool and find it useful!</p>
+
+</article>
+
+  </section>
+</body>
+  <!-- LOAD JAVASCRIPTS  -->
+	<script src='libraries/frameworks/html5slides/default/slides.js'></script>
+	<!-- LOAD HIGHLIGHTER JS FILES -->
+	<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+	 
+	</html>
